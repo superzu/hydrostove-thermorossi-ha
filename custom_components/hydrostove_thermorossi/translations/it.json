@@ -1,0 +1,76 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Idrostufa Thermorossi (WiNet)",
+        "description": "Inserisci l'indirizzo IP locale del modulo WiNet (meglio se fisso).",
+        "data": {
+          "host": "Indirizzo del modulo WiNet",
+          "name": "Nome"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile raggiungere il modulo WiNet a questo indirizzo.",
+      "unsupported": "Il modulo risponde, ma mancano i registri attesi: questo modello di stufa non è ancora supportato."
+    },
+    "abort": {
+      "already_configured": "Questa stufa è già configurata."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": {
+        "name": "Stato",
+        "state": {
+          "off": "Spenta",
+          "cooling": "Raffreddamento",
+          "starting": "Accensione",
+          "working": "Lavoro",
+          "unknown": "Fase sconosciuta"
+        }
+      },
+      "water_temperature": {
+        "name": "Temperatura acqua"
+      },
+      "flue_temperature": {
+        "name": "Temperatura fumi"
+      },
+      "target_temperature": {
+        "name": "Temperatura target acqua"
+      },
+      "clock": {
+        "name": "Orologio stufa"
+      },
+      "state_raw": {
+        "name": "Registro di stato (grezzo)"
+      },
+      "wifi_signal": {
+        "name": "Segnale Wi-Fi"
+      }
+    },
+    "binary_sensor": {
+      "pump": {
+        "name": "Pompa di circolazione"
+      }
+    },
+    "select": {
+      "power": {
+        "name": "Potenza",
+        "state": {
+          "off": "Spenta",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "auto": "Auto"
+        }
+      }
+    },
+    "number": {
+      "water_target": {
+        "name": "Target acqua"
+      }
+    }
+  }
+}

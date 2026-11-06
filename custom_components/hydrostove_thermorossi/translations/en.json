@@ -1,0 +1,76 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Thermorossi hydro stove (WiNet)",
+        "description": "Enter the local IP address of the WiNet module (a fixed IP is recommended).",
+        "data": {
+          "host": "WiNet module address",
+          "name": "Name"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot reach the WiNet module at this address.",
+      "unsupported": "The module answered, but the expected registers are missing: this stove model is not supported yet."
+    },
+    "abort": {
+      "already_configured": "This stove is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": {
+        "name": "State",
+        "state": {
+          "off": "Off",
+          "cooling": "Cooling down",
+          "starting": "Starting",
+          "working": "Working",
+          "unknown": "Unknown phase"
+        }
+      },
+      "water_temperature": {
+        "name": "Water temperature"
+      },
+      "flue_temperature": {
+        "name": "Flue gas temperature"
+      },
+      "target_temperature": {
+        "name": "Water target temperature"
+      },
+      "clock": {
+        "name": "Stove clock"
+      },
+      "state_raw": {
+        "name": "State register (raw)"
+      },
+      "wifi_signal": {
+        "name": "Wi-Fi signal"
+      }
+    },
+    "binary_sensor": {
+      "pump": {
+        "name": "Circulation pump"
+      }
+    },
+    "select": {
+      "power": {
+        "name": "Power",
+        "state": {
+          "off": "Off",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "auto": "Auto"
+        }
+      }
+    },
+    "number": {
+      "water_target": {
+        "name": "Water target"
+      }
+    }
+  }
+}

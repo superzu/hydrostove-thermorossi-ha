@@ -1,0 +1,12 @@
+{
+  "domain": "hydrostove_thermorossi",
+  "name": "Hydro Stove Thermorossi (WiNet locale)",
+  "codeowners": ["@superzu"],
+  "config_flow": true,
+  "documentation": "https://github.com/superzu/hydrostove-thermorossi-ha",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/superzu/hydrostove-thermorossi-ha/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
