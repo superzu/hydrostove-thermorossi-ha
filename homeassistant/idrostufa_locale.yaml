@@ -1,0 +1,117 @@
+# Idrostufa Thermorossi PIDRA 21 — controllo locale via modulo WiNet (senza cloud)
+# Package Home Assistant: copia in /config/packages/idrostufa_locale.yaml
+#
+# Mappa registri (categoria 1):
+#   6   stato: parte bassa = fase (1 OFF, 2 START, 3 WORK), bit 256 = pompa, bit 2048 = Auto
+#   12  potenza: 0 spenta, 1-4 potenza, 5 Auto  (scrivibile: accende/spegne/cambia potenza)
+#   18  temperatura acqua (°C)
+#   21  temperatura fumi (°C)
+#   22  orologio stufa: giorno*2048 + ore*64 + minuti (giorno 0 = lunedì)
+#   112 temperatura target acqua (°C, 65-73, scrivibile)
+
+rest:
+  - resource: http://IP_MODULO_WINET/ajax/get-registers
+    method: POST
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    payload: "key=020&category=1"
+    scan_interval: 10
+    timeout: 8
+    sensor:
+      - name: "Idrostufa temperatura acqua"
+        unique_id: idrostufa_locale_temp_acqua
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state_class: measurement
+        value_template: "{{ dict(value_json.registers).get(18) }}"
+      - name: "Idrostufa temperatura fumi"
+        unique_id: idrostufa_locale_temp_fumi
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state_class: measurement
+        value_template: "{{ dict(value_json.registers).get(21) }}"
+      - name: "Idrostufa temperatura target"
+        unique_id: idrostufa_locale_temp_target
+        unit_of_measurement: "°C"
+        device_class: temperature
+        value_template: "{{ dict(value_json.registers).get(112) }}"
+      - name: "Idrostufa potenza impostata"
+        unique_id: idrostufa_locale_potenza
+        value_template: "{{ dict(value_json.registers).get(12) }}"
+      - name: "Idrostufa fase"
+        unique_id: idrostufa_locale_fase
+        value_template: "{{ dict(value_json.registers).get(6, 0) % 256 }}"
+      - name: "Idrostufa orologio"
+        unique_id: idrostufa_locale_orologio
+        icon: mdi:clock-outline
+        value_template: >
+          {% set v = dict(value_json.registers).get(22, 0) %}
+          {% set g = ['lun','mar','mer','gio','ven','sab','dom'] %}
+          {{ g[v // 2048] if v // 2048 < 7 else '?' }} {{ '%02d:%02d' | format((v // 64) % 32, v % 64) }}
+    binary_sensor:
+      - name: "Idrostufa pompa"
+        unique_id: idrostufa_locale_pompa
+        device_class: running
+        value_template: "{{ (dict(value_json.registers).get(6, 0) // 256) % 2 == 1 }}"
+
+rest_command:
+  # Valori sempre limitati ai range ammessi: nessuna automazione può scrivere fuori range.
+  idrostufa_potenza:
+    url: http://IP_MODULO_WINET/ajax/set-register
+    method: POST
+    content_type: application/x-www-form-urlencoded
+    payload: "key=002&memory=1&regId=12&value={{ [[value | int(0), 0] | max, 5] | min }}"
+  idrostufa_target:
+    url: http://IP_MODULO_WINET/ajax/set-register
+    method: POST
+    content_type: application/x-www-form-urlencoded
+    payload: "key=002&memory=1&regId=112&value={{ [[value | int(69), 65] | max, 73] | min }}"
+
+template:
+  - sensor:
+      - name: "Idrostufa stato"
+        unique_id: idrostufa_locale_stato
+        icon: mdi:fire
+        state: >
+          {% set f = states('sensor.idrostufa_fase') | int(-1) %}
+          {% set fumi = states('sensor.idrostufa_temperatura_fumi') | float(0) %}
+          {% if f == 1 %}{{ 'Raffreddamento' if fumi > 60 else 'Spenta' }}
+          {% elif f == 2 %}Accensione
+          {% elif f == 3 %}Lavoro
+          {% elif f < 0 %}Non disponibile
+          {% else %}Fase {{ f }}{% endif %}
+
+  - select:
+      - name: "Idrostufa potenza"
+        unique_id: idrostufa_locale_select_potenza
+        icon: mdi:fire-circle
+        options: "{{ ['Spenta', '1', '2', '3', '4', 'Auto'] }}"
+        state: >
+          {% set p = states('sensor.idrostufa_potenza_impostata') | int(-1) %}
+          {{ {0: 'Spenta', 5: 'Auto'}.get(p, p | string) if p >= 0 else None }}
+        select_option:
+          - action: rest_command.idrostufa_potenza
+            data:
+              value: "{{ {'Spenta': 0, 'Auto': 5}.get(option, option | int(0)) }}"
+          - delay: 2
+          - action: homeassistant.update_entity
+            target:
+              entity_id: sensor.idrostufa_potenza_impostata
+
+  - number:
+      - name: "Idrostufa target acqua"
+        unique_id: idrostufa_locale_number_target
+        icon: mdi:thermometer-water
+        unit_of_measurement: "°C"
+        min: 65
+        max: 73
+        step: 1
+        state: "{{ states('sensor.idrostufa_temperatura_target') | int(69) }}"
+        set_value:
+          - action: rest_command.idrostufa_target
+            data:
+              value: "{{ value | int }}"
+          - delay: 2
+          - action: homeassistant.update_entity
+            target:
+              entity_id: sensor.idrostufa_temperatura_target
