@@ -1,4 +1,4 @@
-# Mappa dei registri — Thermorossi PIDRA 21 (WiNet 0.81)
+# Mappa dei registri — Thermorossi IDRA 21 (WiNet 0.81)
 
 Verificata osservando la stufa reale e confrontando con display, app e API cloud Thermorossi.
 Altri modelli potrebbero differire: verifica prima di scrivere.

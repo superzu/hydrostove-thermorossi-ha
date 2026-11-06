@@ -38,7 +38,8 @@ Viene creato il dispositivo **Idrostufa** con:
 | Potenza | selettore | Spenta, 1, 2, 3, 4, Auto: accende, spegne e cambia potenza |
 | Target acqua | numero | 65–73 °C |
 | Stato | sensore | Spenta, Raffreddamento, Accensione, Lavoro |
-| Temperatura acqua / fumi / target | sensori | °C |
+| Stato potenza | sensore | Spenta, 1, 2, 3, 4, Auto (sola lettura, utile per storico e dashboard) |
+| Temperatura acqua / fumi / target | sensori | °C, senza decimali (la stufa fornisce gradi interi) |
 | Pompa di circolazione | sensore binario | |
 | Orologio stufa, Segnale Wi-Fi, Registro di stato | diagnostica | gli ultimi due disattivati di default |
 
@@ -65,7 +66,7 @@ Tienilo in una rete o VLAN raggiungibile solo da Home Assistant.
 ## English summary
 
 Local (cloud-free) control of Thermorossi pellet **hydro stoves** with the **WiNet** Wi-Fi module, for Home Assistant.
-Verified on a PIDRA 21 (WiNet firmware 0.81): useful data lives in **register category 1**; register 12 (power 0–5)
+Verified on a IDRA 21 (WiNet firmware 0.81): useful data lives in **register category 1**; register 12 (power 0–5)
 switches the stove on/off and sets power, register 112 sets the water target (65–73 °C).
 Install it with HACS as a custom repository (category: Integration) and add it from the UI by entering the module IP.
 See [`docs/registri.md`](docs/registri.md) for the full register map, `homeassistant/` for a plain YAML alternative and

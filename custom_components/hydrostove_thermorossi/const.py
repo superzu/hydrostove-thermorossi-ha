@@ -4,7 +4,7 @@ from datetime import timedelta
 DOMAIN = "hydrostove_thermorossi"
 DEFAULT_SCAN_INTERVAL = timedelta(seconds=10)
 
-# Registri della categoria 1 (verificati su PIDRA 21, WiNet 0.81)
+# Registri della categoria 1 (verificati su IDRA 21, WiNet 0.81)
 REG_STATE = 6        # parte bassa = fase, bit 256 = pompa, bit 2048 = Auto
 REG_POWER = 12       # 0 spenta, 1-4 potenza, 5 Auto (scrivibile)
 REG_WATER = 18       # temperatura acqua (°C)

@@ -30,6 +30,17 @@
           "unknown": "Unknown phase"
         }
       },
+      "power_state": {
+        "name": "Power state",
+        "state": {
+          "off": "Off",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "auto": "Auto"
+        }
+      },
       "water_temperature": {
         "name": "Water temperature"
       },

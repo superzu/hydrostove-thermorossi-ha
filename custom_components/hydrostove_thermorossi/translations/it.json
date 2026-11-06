@@ -30,6 +30,17 @@
           "unknown": "Fase sconosciuta"
         }
       },
+      "power_state": {
+        "name": "Stato potenza",
+        "state": {
+          "off": "Spenta",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "auto": "Auto"
+        }
+      },
       "water_temperature": {
         "name": "Temperatura acqua"
       },

@@ -16,7 +16,9 @@ from .const import (
     PHASE_OFF,
     PHASE_START,
     PHASE_WORK,
+    POWER_AUTO,
     REG_CLOCK,
+    REG_POWER,
     REG_FLUE,
     REG_STATE,
     REG_TARGET,
@@ -37,6 +39,7 @@ async def async_setup_entry(
     async_add_entities(
         [
             StateSensor(c, eid),
+            PowerStateSensor(c, eid),
             TemperatureSensor(c, eid, "water_temperature", REG_WATER, measurement=True),
             TemperatureSensor(c, eid, "flue_temperature", REG_FLUE, measurement=True),
             TemperatureSensor(c, eid, "target_temperature", REG_TARGET, measurement=False),
@@ -74,9 +77,33 @@ class StateSensor(StoveEntity, SensorEntity):
         return {"phase": raw % 256} if raw is not None else None
 
 
+class PowerStateSensor(StoveEntity, SensorEntity):
+    """Potenza attuale in sola lettura: spenta, 1, 2, 3, 4, auto."""
+
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_options = ["off", "1", "2", "3", "4", "auto"]
+    _attr_icon = "mdi:fire-circle"
+
+    def __init__(self, coordinator, entry_id):
+        super().__init__(coordinator, entry_id, "power_state")
+
+    @property
+    def native_value(self) -> str | None:
+        value = self.reg(REG_POWER)
+        if value is None:
+            return None
+        if value == 0:
+            return "off"
+        if value == POWER_AUTO:
+            return "auto"
+        return str(value) if 1 <= value <= 4 else None
+
+
 class TemperatureSensor(StoveEntity, SensorEntity):
     _attr_device_class = SensorDeviceClass.TEMPERATURE
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+    # La stufa fornisce solo gradi interi: niente decimali in interfaccia.
+    _attr_suggested_display_precision = 0
 
     def __init__(self, coordinator, entry_id, key, register, measurement):
         super().__init__(coordinator, entry_id, key)
