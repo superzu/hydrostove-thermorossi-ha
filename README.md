@@ -5,7 +5,7 @@ Controllo **locale** (senza cloud) delle idrostufe a pellet Thermorossi con modu
 *English summary below.*
 
 > ⚠️ **Avvertenza.** Progetto indipendente, non affiliato a Thermorossi né a Net Software (produttore del modulo WiNet).
-> La mappa dei registri è stata ricavata osservando **un solo modello** (PIDRA 21, firmware WiNet 0.81).
+> La mappa dei registri è stata ricavata osservando **un solo modello** (IDRA 21, firmware WiNet 0.81).
 > Scrivere registri della scheda è a tuo rischio: usa solo i comandi documentati e verificati.
 
 ## Perché
