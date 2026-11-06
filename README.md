@@ -1,3 +1,5 @@
+<img src="custom_components/hydrostove_thermorossi/brand/icon.png" alt="Icona" width="96" align="right">
+
 # Hydro Stove Thermorossi HA
 
 Controllo **locale** (senza cloud) delle idrostufe a pellet Thermorossi con modulo Wi-Fi **WiNet**, per **Home Assistant**.
@@ -44,6 +46,8 @@ Viene creato il dispositivo **Idrostufa** con:
 | Orologio stufa, Segnale Wi-Fi, Registro di stato | diagnostica | gli ultimi due disattivati di default |
 
 I comandi limitano sempre i valori ai range ammessi. Lettura ogni 10 secondi, tutto in rete locale.
+
+L'icona dell'integrazione compare in Home Assistant dalla versione 2026.3 (immagini del marchio incluse nell'integrazione, cartella `brand/`).
 
 ## Installazione manuale (senza HACS)
 
