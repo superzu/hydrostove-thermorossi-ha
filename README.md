@@ -1,4 +1,4 @@
-<img src="custom_components/hydrostove_thermorossi/brand/icon.png" alt="Icona" width="96" align="right">
+<img src="https://raw.githubusercontent.com/superzu/hydrostove-thermorossi-ha/main/custom_components/hydrostove_thermorossi/brand/icon.png" alt="Icona" width="96" align="right">
 
 # Hydro Stove Thermorossi HA
 
