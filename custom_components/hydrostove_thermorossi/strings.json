@@ -50,9 +50,6 @@
       "target_temperature": {
         "name": "Water target temperature"
       },
-      "clock": {
-        "name": "Stove clock"
-      },
       "state_raw": {
         "name": "State register (raw)"
       },

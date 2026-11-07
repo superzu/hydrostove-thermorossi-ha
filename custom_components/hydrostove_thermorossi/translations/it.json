@@ -50,9 +50,6 @@
       "target_temperature": {
         "name": "Temperatura target acqua"
       },
-      "clock": {
-        "name": "Orologio stufa"
-      },
       "state_raw": {
         "name": "Registro di stato (grezzo)"
       },

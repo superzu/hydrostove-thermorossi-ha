@@ -44,7 +44,7 @@ Viene creato il dispositivo **Idrostufa** con:
 | Temperatura acqua / fumi / target | sensori | °C, senza decimali (la stufa fornisce gradi interi) |
 | Idrostufa | sensore binario | Acceso con potenza 1–4 o Auto, spento con potenza 0: lo stato generale, comodo per automazioni |
 | Pompa di circolazione | sensore binario | |
-| Orologio stufa, Segnale Wi-Fi, Registro di stato | diagnostica | gli ultimi due disattivati di default |
+| Segnale Wi-Fi, Registro di stato | diagnostica | disattivati di default |
 
 I comandi limitano sempre i valori ai range ammessi. Lettura ogni 10 secondi, tutto in rete locale.
 

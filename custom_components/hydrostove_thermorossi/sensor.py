@@ -1,4 +1,4 @@
-"""Sensori: stato, temperature, orologio, segnale Wi-Fi."""
+"""Sensori: stato, potenza, temperature, segnale Wi-Fi."""
 from __future__ import annotations
 
 from homeassistant.components.sensor import (
@@ -17,7 +17,6 @@ from .const import (
     PHASE_START,
     PHASE_WORK,
     POWER_AUTO,
-    REG_CLOCK,
     REG_POWER,
     REG_FLUE,
     REG_STATE,
@@ -27,8 +26,6 @@ from .const import (
 from .entity import StoveEntity
 
 STATES = ["off", "cooling", "starting", "working", "unknown"]
-DAYS = {"it": ["lun", "mar", "mer", "gio", "ven", "sab", "dom"],
-        "en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
 
 
 async def async_setup_entry(
@@ -43,7 +40,6 @@ async def async_setup_entry(
             TemperatureSensor(c, eid, "water_temperature", REG_WATER, measurement=True),
             TemperatureSensor(c, eid, "flue_temperature", REG_FLUE, measurement=True),
             TemperatureSensor(c, eid, "target_temperature", REG_TARGET, measurement=False),
-            ClockSensor(c, eid),
             PhaseCodeSensor(c, eid),
             RssiSensor(c, eid),
         ]
@@ -114,26 +110,6 @@ class TemperatureSensor(StoveEntity, SensorEntity):
     @property
     def native_value(self) -> int | None:
         return self.reg(self._register)
-
-
-class ClockSensor(StoveEntity, SensorEntity):
-    """Orologio interno della stufa (giorno e ora)."""
-
-    _attr_icon = "mdi:clock-outline"
-    _attr_entity_category = EntityCategory.DIAGNOSTIC
-
-    def __init__(self, coordinator, entry_id):
-        super().__init__(coordinator, entry_id, "clock")
-
-    @property
-    def native_value(self) -> str | None:
-        v = self.reg(REG_CLOCK)
-        if v is None:
-            return None
-        days = DAYS["it"] if (self.hass.config.language or "").startswith("it") else DAYS["en"]
-        day = v // 2048
-        name = days[day] if 0 <= day < 7 else "?"
-        return f"{name} {(v // 64) % 32:02d}:{v % 64:02d}"
 
 
 class PhaseCodeSensor(StoveEntity, SensorEntity):

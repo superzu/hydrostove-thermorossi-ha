@@ -9,7 +9,6 @@ REG_STATE = 6        # parte bassa = fase, bit 256 = pompa, bit 2048 = Auto
 REG_POWER = 12       # 0 spenta, 1-4 potenza, 5 Auto (scrivibile)
 REG_WATER = 18       # temperatura acqua (°C)
 REG_FLUE = 21        # temperatura fumi (°C)
-REG_CLOCK = 22       # giorno*2048 + ore*64 + minuti, giorno 0 = lunedì
 REG_TARGET = 112     # temperatura target acqua (°C, scrivibile)
 
 PHASE_OFF = 1
