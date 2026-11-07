@@ -42,6 +42,7 @@ Viene creato il dispositivo **Idrostufa** con:
 | Stato | sensore | Spenta, Raffreddamento, Accensione, Lavoro |
 | Stato potenza | sensore | Spenta, 1, 2, 3, 4, Auto (sola lettura, utile per storico e dashboard) |
 | Temperatura acqua / fumi / target | sensori | °C, senza decimali (la stufa fornisce gradi interi) |
+| Idrostufa | sensore binario | Acceso con potenza 1–4 o Auto, spento con potenza 0: lo stato generale, comodo per automazioni |
 | Pompa di circolazione | sensore binario | |
 | Orologio stufa, Segnale Wi-Fi, Registro di stato | diagnostica | gli ultimi due disattivati di default |
 
